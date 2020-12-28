@@ -107,7 +107,7 @@ for lib in project_list:
     run_command("./gradlew clean")
     run_command("./gradlew PublishToMavenLocal")
 
-error_log.write("Start Runtime Regression")
+error_log.write("Start Runtime Regression\n")
 error_log.flush()
 check_cd("../ejml")
 run_command("./gradlew run --console=plain runtimeRegression -Dexec.args=\"--EmailPath {} --ResultsPath {}\"".format(email_path, regression_path))
