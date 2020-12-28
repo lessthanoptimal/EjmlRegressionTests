@@ -110,7 +110,7 @@ for lib in project_list:
 error_log.write("Start Runtime Regression")
 error_log.flush()
 check_cd("../ejml")
-run_command("./gradlew runtimeRegression -q -Dexec.args=\"--EmailPath {} --ResultsPath {}\"".format(email_path, regression_path))
+run_command("./gradlew run --console=plain runtimeRegression -Dexec.args=\"--EmailPath {} --ResultsPath {}\"".format(email_path, regression_path))
 error_log.write("Pulling latest regression code\n")
 error_log.flush()
 check_cd(project_home)
