@@ -110,12 +110,10 @@ regression_path = os.path.abspath("runtime_regression")
 
 error_log.write("Checking out latest regression code\n")
 error_log.flush()
-if os.path.exists("email_login.txt"):
-    run_command("cp email_login.txt ejml/")
-check_cd("ejml")
-run_command("git checkout SNAPSHOT")
+check_cd("../ejml")
+#run_command("git checkout SNAPSHOT")
 run_command("git fetch")
-run_command("git reset --hard origin/SNAPSHOT")
+#run_command("git reset --hard origin/SNAPSHOT")
 error_log.write("Start Runtime Regression")
 run_command("./gradlew runtimeRegression -q -Dexec.args=\"--EmailPath {} --ResultsPath {}\"".format(email_path, regression_path))
 
