@@ -16,7 +16,7 @@ if sys.version_info[0] < 3:
     print("Python 3 is required to run the script and not Python "+str(sys.version_info[0]))
     sys.exit(1)
 
-project_home = os.path.abspath(os.path.join(os.path.dirname(os.path.realpath(__file__)),".."))
+project_home = os.path.abspath(os.path.dirname(os.path.realpath(__file__)))
 
 error_log = open(os.path.join(project_home,log_file_name), 'w')
 error_log.write("# Validation EJML Cron Log\n")
@@ -85,13 +85,13 @@ def check_cd(path):
 
 
 # List of dependencies to build
-project_list = [{"name":"ejml","autogen":True}]
+project_list = [{"name":"ejml", "autogen":True}]
 
 for lib in project_list:
     p = lib["name"]
     path_to_p = os.path.join(project_home, "..", p)
     if not os.path.isdir(path_to_p):
-        error_log.write("Skipping {} directory does not exist\n".format(p))
+        error_log.write("Skipping {} path {} does not exist\n".format(p,path_to_p))
         error_log.flush()
         continue
     error_log.write("Building {}\n".format(p))
