@@ -4,7 +4,7 @@
 # It will rebuild all dependencies and then run the regression
 # Don't run if you care about any unsaved results. it cleans a bunch of crap out
 
-log_file_name = "cronlog.txt"
+log_file_name = "cronlog_ejml.txt"
 
 import datetime
 import os
@@ -24,15 +24,17 @@ error_log.write(datetime.datetime.now().strftime('# %Y %b %d %H:%M\n'))
 error_log.write("Project Directory: "+project_home+"\n")
 error_log.flush()
 
-file_email = os.path.join(project_home,"email_login.txt")
+# Paths need to be absolute since they are passed to EJML code, which is relative to that repo
+email_path = os.path.abspath(os.path.join(project_home,"email_login.txt"))
+regression_path = os.path.abspath("runtime_regression")
 
 # Define some commands
 def send_email( message ):
     try:
         import smtplib
 
-        if os.path.isfile(file_email):
-            with open(file_email) as f:
+        if os.path.isfile(email_path):
+            with open(email_path) as f:
                 username = f.readline().rstrip()
                 password = f.readline().rstrip()
                 destination = f.readline().rstrip()
@@ -105,18 +107,16 @@ for lib in project_list:
     run_command("./gradlew clean")
     run_command("./gradlew PublishToMavenLocal")
 
-email_path = os.path.abspath("email_login.txt")
-regression_path = os.path.abspath("runtime_regression")
-
-error_log.write("Checking out latest regression code\n")
+error_log.write("Start Runtime Regression")
 error_log.flush()
 check_cd("../ejml")
-run_command("git checkout SNAPSHOT")
-run_command("git fetch")
-run_command("git reset --hard origin/SNAPSHOT")
-error_log.write("Start Runtime Regression")
 run_command("./gradlew runtimeRegression -q -Dexec.args=\"--EmailPath {} --ResultsPath {}\"".format(email_path, regression_path))
-
+error_log.write("Pulling latest regression code\n")
+error_log.flush()
+check_cd(project_home)
+# Since the latest regression code could change this script it should be run outside of this script
+# before this script is invoked
+check_cd("git pull")
 error_log.write("\n\nFinished Script\n\n")
 error_log.close()
 
