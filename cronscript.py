@@ -116,7 +116,7 @@ error_log.flush()
 check_cd(project_home)
 # Since the latest regression code could change this script it should be run outside of this script
 # before this script is invoked
-check_cd("git pull")
+run_command("git pull")
 error_log.write("\n\nFinished Script\n\n")
 error_log.close()
 
