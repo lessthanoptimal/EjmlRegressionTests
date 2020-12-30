@@ -25,8 +25,8 @@ error_log.write("Project Directory: "+project_home+"\n")
 error_log.flush()
 
 # Paths need to be absolute since they are passed to EJML code, which is relative to that repo
-email_path = os.path.abspath(os.path.join(project_home,"email_login.txt"))
-regression_path = os.path.abspath("runtime_regression")
+email_path = os.path.abspath(os.path.join(project_home, "email_login.txt"))
+regression_path = os.path.abspath(os.path.join(project_home, "runtime_regression"))
 
 # Define some commands
 def send_email( message ):
