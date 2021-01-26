@@ -27,6 +27,7 @@ error_log.flush()
 # Paths need to be absolute since they are passed to EJML code, which is relative to that repo
 email_path = os.path.abspath(os.path.join(project_home, "email_login.txt"))
 regression_path = os.path.abspath(os.path.join(project_home, "runtime_regression"))
+local_settings_path = os.path.abspath(os.path.join(project_home, "local_settings.yaml"))
 
 # Define some commands
 def send_email( message ):
@@ -110,7 +111,9 @@ for lib in project_list:
 error_log.write("Start Runtime Regression\n")
 error_log.flush()
 check_cd("../ejml")
-run_command("./gradlew run --console=plain runtimeRegression -Dexec.args=\"--EmailPath {} --ResultsPath {}\"".format(email_path, regression_path))
+run_command("./gradlew run --console=plain runtimeRegression -Dexec.args="
+            "\"--EmailPath {} --LocalSettingsPath {} --ResultsPath {}\"".
+            format(email_path,local_settings_path, regression_path))
 error_log.write("Pulling latest regression code\n")
 error_log.flush()
 check_cd(project_home)
