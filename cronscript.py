@@ -103,9 +103,10 @@ for lib in project_list:
     run_command("git fetch")
     run_command("git reset --hard origin/SNAPSHOT") # Won't fail if some idiot rewrote git history
     run_command("git submodule update")
+    run_command("./gradlew clean")
     if lib["autogen"]:
         run_command("./gradlew autogenerate")
-    run_command("./gradlew clean")
+    run_command("./gradlew assemble")
     run_command("./gradlew PublishToMavenLocal")
 
 error_log.write("Start Runtime Regression\n")
